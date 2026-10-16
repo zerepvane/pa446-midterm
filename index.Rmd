@@ -41,4 +41,43 @@ FinalCAtable %>%  # Arranges population high to low then gets top 5
   head(5)
 
 ```
+```{r, part 1 question2}
+library(readr)
+bookhtml <- read_html("https://books.toscrape.com/")
+
+
+eachbook <- bookhtml |> 
+  html_elements("article.product_pod")
+eachbook
+
+title = eachbook |> 
+  html_element("h3") |> 
+  html_text2()
+title
+
+price = eachbook |> 
+  html_element("p.price_color") |> 
+  html_text2()
+price
+
+availability = eachbook |> 
+  html_element("p.instock.availability") |> 
+  html_text2()
+availability
+
+bookstoscrape <- tibble(
+  title, 
+  price,
+  availability
+)
+
+cleanbookstoscrape <-bookstoscrape %>%
+   mutate(
+    price = str_remove_all(price,"£"),
+    price = as.numeric(price)
+)
+
+write_csv(cleanbookstoscrape, "books.csv")
+
+```
 
