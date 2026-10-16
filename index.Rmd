@@ -10,3 +10,35 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 # this is the main branch
+
+```{r}
+# Part Two Question 1
+library(tidyverse) # loads packages
+library(rvest)
+library(dplyr)
+library(stringr)
+communityareas<-read_html("https://en.wikipedia.org/wiki/Community_areas_of_Chicago") # loads the html file
+
+
+#EXTRACT TABLE AS DATAFRAME
+CAtable <- communityareas %>%
+  html_element("table") %>%
+  html_table()
+
+head(CAtable)
+
+FinalCAtable<- CAtable[-c(1,79),] %>% # removes rows 1 & 79 from original
+  select(No.,Name,Population) %>% # only keeps the number name and population
+  mutate(
+    Population = str_remove_all(Population,","),
+    Population = as.numeric(Population) # removes comma and makes population numeric
+)
+
+FinalCAtable %>% slice(24) # West Town
+
+FinalCAtable %>%  # Arranges population high to low then gets top 5
+  arrange(desc(Population)) %>%
+  head(5)
+
+```
+
