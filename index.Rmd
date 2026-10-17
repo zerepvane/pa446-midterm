@@ -41,6 +41,7 @@ FinalCAtable %>%  # Arranges population high to low then gets top 5
   head(5)
 
 ```
+
 ```{r, part 1 question2}
 library(readr)
 bookhtml <- read_html("https://books.toscrape.com/")
@@ -85,8 +86,6 @@ write_csv(cleanbookstoscrape, "books.csv") # saves table as csv and in repo
 
 ```
 
-
-
 ```{r part 3}
 library(httr)
 library(jsonlite)
@@ -116,8 +115,37 @@ dat %>%
   head(10)
 
 ```
-Part 3 Question 4:
-When looking at this data it can be seen that a lot of requests are to remove graffiti in West Town so that may be prominent. One thing this data can't tell me is how long this graffiti removal can take since there can be some that take a while to remove depending on size. 
+
+Part 3 Question 4: When looking at this data it can be seen that a lot of requests are to remove graffiti in West Town so that may be prominent. One thing this data can't tell me is how long this graffiti removal can take since there can be some that take a while to remove depending on size.
 
 
 
+Part Four:
+
+```{r}
+library(tidycensus)
+#used from class example in order to find variables in r
+y24 <- load_variables(2024, "acs5", cache = FALSE) 
+
+View(y24) 
+
+y24 <- y24 %>% 
+  filter(str_detect(label, "income"))  %>%.  
+  select(name, label, concept)
+```
+
+• Gross Rent as a Percentage of Household Income, “Total”: B25070_001E • Gross Rent as a Percentage of Household Income, "50.0 percent or more":B25070_010E • Median Household Income: B19013_001E
+
+```{r}
+
+# step 2 creates dataset for Ohio with all 3 variables for all Ohio counties
+Ohioincome <- get_acs(geography = "tract", 
+                   variables = c(
+                     percent_rent_total = "B25070_001", # gets all 3 variables
+                     fiftypercent_rent="B25070_010",
+                       median_householdinc= "B19013_001" ),
+                   state = "OH", , 
+                   year = 2024, 
+                   survey = "acs5") 
+head(Ohioincome) 
+```
