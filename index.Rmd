@@ -105,9 +105,9 @@ res <- GET(url, query = params)
 dat <- fromJSON(content(res, "text")) # dataframe created fromJSON 
 head(dat)
 
-nrow(dat)
+nrow(dat) #number of rows
 
-colnames(dat)
+colnames(dat) #column names
 
 
 dat %>% 
@@ -148,4 +148,91 @@ Ohioincome <- get_acs(geography = "tract",
                    year = 2024, 
                    survey = "acs5") 
 head(Ohioincome) 
+```
+```{r}
+library(tidyr)
+library(janitor)
+
+# step 3
+wideOhioIncome <-Ohioincome  %>% #uses Ohioincome dataset and gets rid of moe
+  select(-moe)%>%
+separate_wider_delim( #used AI here to figure out how to seperate the name into different columns
+    cols = NAME,
+    delim = "; ",
+    names = c("census_tract", "county", "state")
+  ) %>%
+  pivot_wider( #makes it wider by giving each variable its own column
+    id_cols = c(GEOID,census_tract,county,state),
+    names_from = variable,
+    values_from = c(estimate),
+  ) %>%
+  clean_names() %>%
+#step 3.2
+  mutate( # adds  variable to table
+    severe_burden_rate = fiftypercent_rent/ percent_rent_total
+  ) %>%
+  arrange(desc(severe_burden_rate))
+print(wideOhioIncome)
+
+```
+STEP Four
+```{r}
+#gets median and mode for severe burden rate
+wideOhioIncome %>%
+  summarise(
+    mean_inc   = mean(severe_burden_rate, na.rm = TRUE),
+    median_inc = median(severe_burden_rate, na.rm = TRUE)
+  )
+
+#2
+countyrates <- wideOhioIncome %>% #groups by county gets mean and arranges them
+  group_by(county) %>%
+  summarise(avg_rate = mean(severe_burden_rate, na.rm = TRUE), .groups = "drop") %>%
+  arrange(desc(avg_rate))
+
+#top 5 highest rates
+head(countyrates, 5)
+
+#top 5 lowest rates
+tail(countyrates, 5)
+```
+Step 5
+
+```{r}
+library(ggplot2)
+
+#creates scatterplot
+ggplot(data = wideOhioIncome, aes(x = median_householdinc, y = severe_burden_rate)) +
+  geom_point(alpha = 0.5, color = "blue") +
+  geom_smooth(method = "lm", color = "red", se = FALSE) +
+  
+  labs(
+    title = "Median Household Income vs. Severe Burden Rate",
+    subtitle = "Ohio Census Tracts",
+    x = "Median Household Income ($)",
+    y = "Severe Burden Rate"
+  ) +
+
+  theme_minimal()
+
+
+#creates bar graph
+
+top_5 <- head(countyrates, 5)
+low_5 <- tail(countyrates, 5)
+
+#getting them to be percentages 
+countybargraph <- bind_rows(top_5, low_5) %>%
+  mutate(avg_ratepercent = avg_rate * 100)
+
+
+ggplot(countybargraph, aes(x = avg_ratepercent, y = reorder(county, avg_ratepercent))) + # orders from hight to low
+  geom_col( fill = "blue") +
+  labs(
+    title = "Top 5 and Bottom 5 Counties by Severe Housing Burden Rate",
+    subtitle = "Ohio Counties",
+    x = "Average Severe Housing Burden Rate (%)",
+    y = "County"
+  ) +
+  theme_minimal()
 ```
