@@ -46,38 +46,73 @@ library(readr)
 bookhtml <- read_html("https://books.toscrape.com/")
 
 
-eachbook <- bookhtml |> 
+eachbook <- bookhtml |> # each book section
   html_elements("article.product_pod")
 eachbook
 
-title = eachbook |> 
+title = eachbook |> #title of each book
   html_element("h3") |> 
   html_text2()
 title
 
-price = eachbook |> 
+
+price = eachbook |> #price of each book
   html_element("p.price_color") |> 
   html_text2()
 price
 
-availability = eachbook |> 
+
+availability = eachbook |>  #availility of each book
   html_element("p.instock.availability") |> 
   html_text2()
 availability
 
-bookstoscrape <- tibble(
+bookstoscrape <- tibble( # creates table
   title, 
   price,
   availability
 )
 
-cleanbookstoscrape <-bookstoscrape %>%
+
+
+cleanbookstoscrape <-bookstoscrape %>% # cleans table and makes price numeric
    mutate(
     price = str_remove_all(price,"£"),
     price = as.numeric(price)
 )
 
-write_csv(cleanbookstoscrape, "books.csv")
+write_csv(cleanbookstoscrape, "books.csv") # saves table as csv and in repo
 
 ```
+
+=======
+write_csv(cleanbookstoscrape, "books.csv") #saves as csv in repo
+
+```
+
+```{r part 3}
+library(httr)
+library(jsonlite)
+
+# answer to part 3 question 1
+url <- "https://data.cityofchicago.org/resource/v6vf-nfxy.json"
+
+params <- list( #creates a filter that will go through API
+  community_area = "24",
+   `$where` = "created_date >= '2026-01-01T00:00:00'",
+  `$order` = "created_date DESC",
+  `$limit` = 1000
+)
+res <- GET(url, query = params)
+
+#question 2
+dat <- fromJSON(content(res, "text")) # dataframe created fromJSON 
+head(dat)
+
+nrow(dat)
+
+colnames(dat)
+```
+
+
 
