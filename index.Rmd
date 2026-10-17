@@ -85,10 +85,7 @@ write_csv(cleanbookstoscrape, "books.csv") # saves table as csv and in repo
 
 ```
 
-=======
-write_csv(cleanbookstoscrape, "books.csv") #saves as csv in repo
 
-```
 
 ```{r part 3}
 library(httr)
@@ -112,6 +109,10 @@ head(dat)
 nrow(dat)
 
 colnames(dat)
+
+
+
+
 ```
 
 
