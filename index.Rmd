@@ -111,9 +111,13 @@ nrow(dat)
 colnames(dat)
 
 
-
+dat %>% 
+  count(sr_type, sort = TRUE)%>% # uses data frame and sorts by sr type from descending order then gives top 10. Answer to 3
+  head(10)
 
 ```
+Part 3 Question 4:
+When looking at this data it can be seen that a lot of requests are to remove graffiti in West Town so that may be prominent. One thing this data can't tell me is how long this graffiti removal can take since there can be some that take a while to remove depending on size. 
 
 
 
