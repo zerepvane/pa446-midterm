@@ -11,6 +11,8 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # this is the main branch
 
+# Part 2
+
 ```{r}
 # Part Two Question 1
 library(tidyverse) # loads packages
@@ -82,9 +84,12 @@ cleanbookstoscrape <-bookstoscrape %>% # cleans table and makes price numeric
     price = as.numeric(price)
 )
 
+print(cleanbookstoscrape)
 write_csv(cleanbookstoscrape, "books.csv") # saves table as csv and in repo
 
 ```
+
+# Part Three
 
 ```{r part 3}
 library(httr)
@@ -239,7 +244,7 @@ ggplot(countybargraph, aes(x = avg_ratepercent, y = reorder(county, avg_rateperc
   theme_minimal()
 ```
 
-### Step 6: 
+### Step 6:
 
 #### 1. What relationship do you see between income and severe rent burden in Ohio, and what might explain it?
 
