@@ -128,7 +128,7 @@ y24 <- load_variables(2024, "acs5", cache = FALSE)
 print(y24) 
 
 y24 <- y24 %>% 
-  filter(str_detect(label, "income"))  %>%.  
+  filter(str_detect(label, "income"))  %>% 
   select(name, label, concept)
 ```
 
@@ -263,4 +263,4 @@ Answer:This could mislead a city manager because they would send crews to the ar
 
 Answer: I would say the scraping I did in part 2 was appropriate. The data was on Wikipedia which was public, it was not about private individuals and it was also factual. A civic data situation where it would not be appropriate is when it is not public and can also about an individual. It can be a government website that collects an individuals data such as name, address and phone number. Scraping that is non-consensual and most likely is not data that is available for the public.
 
-AI Use Statement: I used AI in areas where I may have gotten errors when running chunks in order for it to run efficiently or to get the correct outcome. There may have been a line missing that I needed. I also had a problem at one point when merging branches so I asked for the steps that I needed to take in order to resolve issue.
+AI Use Statement: I used Gemini AI in areas where I may have gotten errors when running chunks in order for it to run efficiently or to get the correct outcome. There may have been a line missing that I needed. I also had a problem at one point when merging branches so I asked for the steps that I needed to take in order to resolve issue.
