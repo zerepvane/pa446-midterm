@@ -226,7 +226,7 @@ countybargraph <- bind_rows(top_5, low_5) %>%
   mutate(avg_ratepercent = avg_rate * 100)
 
 
-ggplot(countybargraph, aes(x = avg_ratepercent, y = reorder(county, avg_ratepercent))) + # orders from hight to low
+ggplot(countybargraph, aes(x = avg_ratepercent, y = reorder(county, avg_ratepercent))) + # orders from high to low
   geom_col( fill = "blue") +
   labs(
     title = "Top 5 and Bottom 5 Counties by Severe Housing Burden Rate",
@@ -236,3 +236,44 @@ ggplot(countybargraph, aes(x = avg_ratepercent, y = reorder(county, avg_rateperc
   ) +
   theme_minimal()
 ```
+
+Step 6:
+1. What relationship do you see between income and severe rent burden in Ohio, and what might
+explain it? 
+
+The relationship I see is that as median household income increases the severe burden rate decreases which makes sense. If the income increases, they are more likely to afford their rent compared to others who have lower income who make enough to cover rent but are limited with other things.
+
+2. What are two limitations of using county-level ACS estimates to decide where to target rental
+assistance? 
+
+One limitation is that at county-level there could be drastic ranges of income in a single county. A really wealthy neighborhood vs an impoverished neighborhood which can skew the numbers. Another limitation is that it is every 5 years and a lot can happen in that time span that can change the circumstances at each county.
+
+Part 5:
+
+1.  The 311 dataset includes the street address and coordinates of each request.
+Suppose you wanted to publish a map of West Town requests on your GitHub Page. Identify one
+privacy risk, then explain how you would apply one de-identification technique before
+publishing.
+
+Answer: One privacy risk is that when making a map, it will show what area exactly in West Town is having certain issues. If there is a rodent problem, it exposes people who live nearby when most likely they would want to not have that type of issue made public and just have it resolved. One technique I would apply is aggregation. I would use summary statistics and get total counts for issues instead of just doing each individual requests. I would also just get of exact street address as well. 
+
+
+2. Bias and data quality. 311 data shows where people report problems, which is not
+always where problems exist. Explain how this could mislead a city manager who assigns repair
+crews by request counts, and describe one way to check for or reduce that bias.
+
+Answer:This could mislead a city manager because they would send crews to the area where people only report the problems and not other areas where problems also exist. This would mean the crews would be sent only where requested and leaves other areas who may not report to be unserved or served to a lesser degree which is not appropriate.  One way to reduce this bias is to be proactive and find which areas report less. It may not be because there is no issues but less reporting. Going into these areas and informing residents about how to report but also checking if there are issues.
+
+
+3. Scraping responsibly.  Using the criteria discussed in Week 5, explain whether the
+scraping you did in Part II was appropriate. Then describe one civic data situation where you
+should not scrape without further review.
+
+Answer: I would say the scraping I did in part 2 was appropriate. The data was on Wikipedia which was public, it was not about private individuals and it was also factual. A civic data situation where it would not be appropriate is when it is not public and can also about an individual. It can be a government website that collects an individuals data such as name, address and phone number. Scraping that is non-consensual and most likely is not data that is available for the public. 
+
+
+AI Use Statement:
+I used AI in areas where I may have gotten errors when running chunks in order for it to run efficiently or to get the correct outcome. There may have been a line missing that I needed. I also had a problem at one point when merging branches so I asked for the steps that I needed to take in order to resolve issue. 
+
+
+
