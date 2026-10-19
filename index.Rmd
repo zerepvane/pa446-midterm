@@ -42,7 +42,7 @@ FinalCAtable %>%  # Arranges population high to low then gets top 5
 
 ```
 
-```{r, part 1 question2}
+```{r, part 2 question2}
 library(readr)
 bookhtml <- read_html("https://books.toscrape.com/")
 
@@ -118,16 +118,14 @@ dat %>%
 
 Part 3 Question 4: When looking at this data it can be seen that a lot of requests are to remove graffiti in West Town so that may be prominent. One thing this data can't tell me is how long this graffiti removal can take since there can be some that take a while to remove depending on size.
 
-
-
-Part Four:
+# Part Four:
 
 ```{r}
 library(tidycensus)
 #used from class example in order to find variables in r
 y24 <- load_variables(2024, "acs5", cache = FALSE) 
 
-View(y24) 
+print(y24) 
 
 y24 <- y24 %>% 
   filter(str_detect(label, "income"))  %>%.  
@@ -149,6 +147,7 @@ Ohioincome <- get_acs(geography = "tract",
                    survey = "acs5") 
 head(Ohioincome) 
 ```
+
 ```{r}
 library(tidyr)
 library(janitor)
@@ -175,7 +174,9 @@ separate_wider_delim( #used AI here to figure out how to seperate the name into 
 print(wideOhioIncome)
 
 ```
-STEP Four
+
+### STEP Four
+
 ```{r}
 #gets median and mode for severe burden rate
 wideOhioIncome %>%
@@ -196,7 +197,8 @@ head(countyrates, 5)
 #top 5 lowest rates
 tail(countyrates, 5)
 ```
-Step 5
+
+### Step 5
 
 ```{r}
 library(ggplot2)
@@ -237,43 +239,28 @@ ggplot(countybargraph, aes(x = avg_ratepercent, y = reorder(county, avg_rateperc
   theme_minimal()
 ```
 
-Step 6:
-1. What relationship do you see between income and severe rent burden in Ohio, and what might
-explain it? 
+### Step 6: 
+
+#### 1. What relationship do you see between income and severe rent burden in Ohio, and what might explain it?
 
 The relationship I see is that as median household income increases the severe burden rate decreases which makes sense. If the income increases, they are more likely to afford their rent compared to others who have lower income who make enough to cover rent but are limited with other things.
 
-2. What are two limitations of using county-level ACS estimates to decide where to target rental
-assistance? 
+2.  What are two limitations of using county-level ACS estimates to decide where to target rental assistance?
 
 One limitation is that at county-level there could be drastic ranges of income in a single county. A really wealthy neighborhood vs an impoverished neighborhood which can skew the numbers. Another limitation is that it is every 5 years and a lot can happen in that time span that can change the circumstances at each county.
 
-Part 5:
+### Part 5:
 
-1.  The 311 dataset includes the street address and coordinates of each request.
-Suppose you wanted to publish a map of West Town requests on your GitHub Page. Identify one
-privacy risk, then explain how you would apply one de-identification technique before
-publishing.
+1.  The 311 dataset includes the street address and coordinates of each request. Suppose you wanted to publish a map of West Town requests on your GitHub Page. Identify one privacy risk, then explain how you would apply one de-identification technique before publishing.
 
-Answer: One privacy risk is that when making a map, it will show what area exactly in West Town is having certain issues. If there is a rodent problem, it exposes people who live nearby when most likely they would want to not have that type of issue made public and just have it resolved. One technique I would apply is aggregation. I would use summary statistics and get total counts for issues instead of just doing each individual requests. I would also just get of exact street address as well. 
+Answer: One privacy risk is that when making a map, it will show what area exactly in West Town is having certain issues. If there is a rodent problem, it exposes people who live nearby when most likely they would want to not have that type of issue made public and just have it resolved. One technique I would apply is aggregation. I would use summary statistics and get total counts for issues instead of just doing each individual requests. I would also just get of exact street address as well.
 
+2.  Bias and data quality. 311 data shows where people report problems, which is not always where problems exist. Explain how this could mislead a city manager who assigns repair crews by request counts, and describe one way to check for or reduce that bias.
 
-2. Bias and data quality. 311 data shows where people report problems, which is not
-always where problems exist. Explain how this could mislead a city manager who assigns repair
-crews by request counts, and describe one way to check for or reduce that bias.
+Answer:This could mislead a city manager because they would send crews to the area where people only report the problems and not other areas where problems also exist. This would mean the crews would be sent only where requested and leaves other areas who may not report to be unserved or served to a lesser degree which is not appropriate. One way to reduce this bias is to be proactive and find which areas report less. It may not be because there is no issues but less reporting. Going into these areas and informing residents about how to report but also checking if there are issues.
 
-Answer:This could mislead a city manager because they would send crews to the area where people only report the problems and not other areas where problems also exist. This would mean the crews would be sent only where requested and leaves other areas who may not report to be unserved or served to a lesser degree which is not appropriate.  One way to reduce this bias is to be proactive and find which areas report less. It may not be because there is no issues but less reporting. Going into these areas and informing residents about how to report but also checking if there are issues.
+3.  Scraping responsibly. Using the criteria discussed in Week 5, explain whether the scraping you did in Part II was appropriate. Then describe one civic data situation where you should not scrape without further review.
 
+Answer: I would say the scraping I did in part 2 was appropriate. The data was on Wikipedia which was public, it was not about private individuals and it was also factual. A civic data situation where it would not be appropriate is when it is not public and can also about an individual. It can be a government website that collects an individuals data such as name, address and phone number. Scraping that is non-consensual and most likely is not data that is available for the public.
 
-3. Scraping responsibly.  Using the criteria discussed in Week 5, explain whether the
-scraping you did in Part II was appropriate. Then describe one civic data situation where you
-should not scrape without further review.
-
-Answer: I would say the scraping I did in part 2 was appropriate. The data was on Wikipedia which was public, it was not about private individuals and it was also factual. A civic data situation where it would not be appropriate is when it is not public and can also about an individual. It can be a government website that collects an individuals data such as name, address and phone number. Scraping that is non-consensual and most likely is not data that is available for the public. 
-
-
-AI Use Statement:
-I used AI in areas where I may have gotten errors when running chunks in order for it to run efficiently or to get the correct outcome. There may have been a line missing that I needed. I also had a problem at one point when merging branches so I asked for the steps that I needed to take in order to resolve issue. 
-
-
-
+AI Use Statement: I used AI in areas where I may have gotten errors when running chunks in order for it to run efficiently or to get the correct outcome. There may have been a line missing that I needed. I also had a problem at one point when merging branches so I asked for the steps that I needed to take in order to resolve issue.
